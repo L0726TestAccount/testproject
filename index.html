@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans", sans-serif;
+      }
+
+      section {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 100px;
+        box-sizing: border-box;
+        background: linear-gradient(180deg, #011936, #303242), url("bakery.jpg");
+        background-size: cover;
+        background-blend-mode: screen;
+      }
+      form {
+        position: relative;
+        height: 450px;
+        background-color: #f2eaec;
+        padding: 2rem;
+        border-radius: 5px;
+        position: relative;
+        box-shadow: 0px 2px 15px #0f1928;
+      }
+
+      .input-group {
+        margin-top: 10px;
+      }
+
+      label {
+        vertical-align: top;
+      }
+      .title {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 40px;
+        font-size: 1.6em;
+      }
+      .wrap-input {
+        width: 100%;
+
+        margin-bottom: 45px;
+      }
+      input[type="text"] {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        border-bottom: 2px solid #dbdbdb;
+        font-size: 1.5em;
+      }
+      input[type="text"]:focus {
+        border-bottom: 2px solid #0e2431;
+        transition: 1s;
+      }
+
+      .submit {
+        display: block;
+        width: 100%;
+        height: 50px;
+        font-size: 1.3em;
+        background-color: #3e3e3e;
+        border-radius: 4px;
+        border: 1px solid #3e3e3e;
+        outline: none;
+        color: #fff;
+      }
+      .submit:hover {
+        cursor: pointer;
+      }
+      .submit:active {
+        transform: scale(0.95);
+      }
+      .title-img {
+        position: absolute;
+        top: -113px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <form id="form">
+        <img
+          src="title.png"
+          alt=""
+          width="320"
+          height="150"
+          class="title-img"
+        />
+        <div class="title">
+          <h1>Feedback</h1>
+        </div>
+        <div class="wrap-input">
+          <input type="text" placeholder="Name" id="name" />
+        </div>
+        <div class="wrap-input">
+          <input type="text" placeholder="Phone" id="phone" />
+        </div>
+        <div class="wrap-input">
+          <input type="text" placeholder="Address" id="address" />
+        </div>
+        <div class="wrap-input">
+          <input type="text" placeholder="Content" id="content" />
+        </div>
+        <button class="submit">Submit LA</button>
+      </form>
+      <br />
+      <hr style="width: 50%; text-align: left; margin-left: 0;" />
+      <div class="show"></div>
+    </section>
+    <script>
+      document.querySelector("#form").addEventListener("submit", (e) => {
+        const show = document.querySelector(".show");
+        let name = document.querySelector("#name").value;
+        let phone = document.querySelector("#phone").value;
+        let address = document.querySelector("#address").value;
+        let content = document.querySelector("#content").value;
+        let userData;
+        e.preventDefault();
+        show.innerHTML += `
+            <div class="user-info">
+                <span>Name：${name}</span>
+                <span>Phone：${phone}</span>
+                <span>Address:${address}</span>
+                <span>Content:${content}</span>
+            </div>
+        `;
+        //ES6
+        userData = {
+          name,
+          phone,
+          address,
+          content,
+        };
+        userStorage.push(userData);
+        localStorage.setItem("users", JSON.stringify(userStorage));
+      });
+
+      //檢查 如果ls是空的話
+      if (localStorage.getItem("users") === null) {
+        //先宣告一個空陣列
+        var userStorage = [];
+        //直接先建立users 並把空陣列給予users
+        localStorage.setItem("users", JSON.stringify(userStorage));
+      } else {
+        //不是空的 直接用JSON.parse取出資料
+        var userStorage = JSON.parse(localStorage.getItem("users"));
+      }
+
+      function displayLsInfo() {
+        const show = document.querySelector(".show");
+        let userInfo = JSON.parse(localStorage.getItem("users"));
+        console.log(userInfo);
+        userInfo.forEach((user) => {
+          show.innerHTML += `
+            <div class="user-info">
+                <span>Name:${user["name"]}</span>
+                <span>Phone:${user["phone"]}</span>
+                <span>Address:${user["address"]}</span>
+                <span>Content:${user["content"]}</span>
+            </div>
+            `;
+        });
+      }
+
+      var tempArr = [];
+
+      let test = {
+        one: "1",
+        two: "2",
+        three: "3",
+      };
+
+      let test2 = {
+        one: "2",
+        two: "2",
+        three: "3",
+      };
+
+      tempArr.push(test);
+      tempArr.push(test2);
+
+      console.log(tempArr);
+
+      for (let i = 0; i < tempArr.length; i++) {
+        console.log(tempArr[i]);
+      }
+      // =
+      tempArr.forEach(function (temp) {
+        console.log(temp);
+      });
+
+      // =
+
+      displayLsInfo();
+      // console.log(localStorage.getItem("users"));
+      //   localStorage.clear();
+    </script>
+  </body>
+</html>
